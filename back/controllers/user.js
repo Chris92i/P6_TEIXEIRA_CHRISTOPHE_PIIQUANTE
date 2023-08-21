@@ -33,7 +33,7 @@ exports.login = (req,res) => {
       if (!user) {
           return res.status(401).json({ message: 'Paire login/mot de passe incorrecte'});
       }
-      // utilisation de la focntion compare de brcypt pour comparer le mdp que l'user vient d'entrer avec le hash dans la base (si vient de la même string)
+      // utilisation de la méthode compare de brcypt pour comparer le mdp que l'user vient d'entrer avec le hash dans la base (si vient de la même string)
       bcrypt.compare(req.body.password, user.password)
           .then(valid => {
               if (!valid) {

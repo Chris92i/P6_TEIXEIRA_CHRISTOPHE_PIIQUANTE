@@ -10,6 +10,8 @@ const userSchema = mongoose.Schema({
     password: { type: String, required: true },
 
 })
+
+// utilisation du plugin pour vérification adresse email unique
 userSchema.plugin(uniquev)
 
 
