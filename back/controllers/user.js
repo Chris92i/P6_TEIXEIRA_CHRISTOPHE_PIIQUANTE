@@ -4,7 +4,9 @@ const User = require("../models/user")
 // import du pacquage bcrypt
 const bcrypt = require("bcrypt")
 
+// import du package jsonwebtoken pour les token
 const jwt = require("jsonwebtoken");
+
 const user = require("../models/user");
 const { use } = require("../app");
 const valid = require("../middleware/valid");
@@ -41,7 +43,12 @@ exports.login = (req,res) => {
               }
               res.status(200).json({
                   userId: user._id,
-                  token: 'TOKEN'
+                  //utilisation de la fonction sign de jsonwebtoken pour le chiffrage d'un token
+                  token: jwt.sign(
+                    {userId: user._id },
+                    'RAMDOM_TOKEN_SECRET',
+                    {expiresIn: '24h'}
+                  )
               });
           })
           .catch(error => res.status(500).json({ error }));
