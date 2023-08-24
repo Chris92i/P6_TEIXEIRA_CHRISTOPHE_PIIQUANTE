@@ -7,7 +7,8 @@ const mongoose = require('mongoose')
 
 const userRoute = require("./routes/user")
 
-// const sauceRoute = require("./routes/sauce")
+//import du model de sauce
+const sauceRoute = require("./models/sauce")
 
 mongoose.connect('mongodb+srv://Bob2009:Openclassrooms01@cluster0.6hbeb7w.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -26,12 +27,14 @@ mongoose.connect('mongodb+srv://Bob2009:Openclassrooms01@cluster0.6hbeb7w.mongod
       "Access-Control-Allow-Methods",
       "GET, POST, PUT, DELETE, PATCH, OPTIONS"
     );
-    res.setHeader("Access-Control-Allow-Credentials", true);
+    //res.setHeader("Access-Control-Allow-Credentials", true);
     next();
   });
 
-  
+
+// 2 grosses routes
 app.use("/api/auth",userRoute)
+app.use("/api/sauces",sauceRoute)
 
 
 module.exports = app

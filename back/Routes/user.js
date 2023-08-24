@@ -6,10 +6,11 @@ const router = express.Router()
 
 const userctrl = require("../controllers/user")
 const validpassword = require('../middleware/valid')
+const validEmail = require("../middleware/validEmail")
 
 
 
-router.post("/signup",validpassword,userctrl.signup)
+router.post("/signup",validpassword,validEmail, userctrl.signup)
 router.post("/login",userctrl.login)
 
 
