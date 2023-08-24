@@ -2,9 +2,12 @@ const express = require('express')
 
 const app = express()
 app.use(express.json())
+
 const mongoose = require('mongoose')
 
 const userRoute = require("./routes/user")
+
+// const sauceRoute = require("./routes/sauce")
 
 mongoose.connect('mongodb+srv://Bob2009:Openclassrooms01@cluster0.6hbeb7w.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -12,7 +15,7 @@ mongoose.connect('mongodb+srv://Bob2009:Openclassrooms01@cluster0.6hbeb7w.mongod
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-
+// pour le CORS (Cross Origin Resource Sharing)
   app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
