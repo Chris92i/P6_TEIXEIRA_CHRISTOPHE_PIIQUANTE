@@ -2,15 +2,11 @@
 const Sauce = require("../models/sauce")
 
 
-exports.createSauce = (req,res){
+exports.createSauce = (req,res) => {
         const sauce = new Sauce({
-          title: req.body.title,
-          description: req.body.description,
-          imageUrl: req.body.imageUrl,
-          price: req.body.price,
-          userId: req.body.userId
+            ...req.body 
         });
-        thing.save().then(
+        sauce.save().then(
           () => {
             res.status(201).json({
               message: 'Post saved successfully!'
@@ -25,10 +21,10 @@ exports.createSauce = (req,res){
         );
 }
 
-exports.getAllSauces = (req, res) {
-        Sauces.find().then(
-          (sauces) => {
-            res.status(200).json(sauces);
+exports.getAllSauces = (req, res) => {
+        Sauce.find().then(
+          (sauce) => {
+            res.status(200).json(sauce);
           }
         ).catch(
           (error) => {
@@ -40,7 +36,7 @@ exports.getAllSauces = (req, res) {
 };
 
 
-exports.getOneSauce = (req,res) {
+exports.getOneSauce = (req,res) => {
     Sauce.findOne({
         _id: req.params.id
       }).then(
@@ -59,7 +55,7 @@ exports.getOneSauce = (req,res) {
       );
 }
 
-exports.updateSauce = (req, res) {
+exports.updateSauce = (req, res) => {
     const sauce = new Sauce({
         _id: req.params.id,
         title: req.body.title,
@@ -68,10 +64,10 @@ exports.updateSauce = (req, res) {
         price: req.body.price,
         userId: req.body.userId
       });
-      Thing.updateOne({_id: req.params.id}, thing).then(
+      Sauce.updateOne({_id: req.params.id}, sauce).then(
         () => {
           res.status(201).json({
-            message: 'Thing updated successfully!'
+            message: 'Sauce updated successfully!'
           });
         }
       ).catch(
@@ -83,7 +79,7 @@ exports.updateSauce = (req, res) {
       );
 }
 
-exports.deleteSauce = (req, res){
+exports.deleteSauce = (req, res) => {
     Sauce.deleteOne({_id: req.params.id}).then(
         () => {
           res.status(200).json({
@@ -99,6 +95,6 @@ exports.deleteSauce = (req, res){
       );
 }
 
-exports.likeSauce = (req, res){
+exports.likeSauce = (req, res) => {
     res.status(200).json({message : "ok"})
 }

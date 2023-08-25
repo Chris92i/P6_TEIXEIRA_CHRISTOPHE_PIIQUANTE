@@ -1,14 +1,15 @@
 const express = require('express')
 
 const app = express()
+// permet a express de parser les json
 app.use(express.json())
+
 
 const mongoose = require('mongoose')
 
 const userRoute = require("./routes/user")
 
-//import du model de sauce
-const sauceRoute = require("./models/sauce")
+const sauceRoute = require("./routes/sauce")
 
 mongoose.connect('mongodb+srv://Bob2009:Openclassrooms01@cluster0.6hbeb7w.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,

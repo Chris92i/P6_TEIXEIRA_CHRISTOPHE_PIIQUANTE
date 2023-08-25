@@ -45,7 +45,7 @@ exports.login = (req,res) => {
                   //utilisation de la fonction sign de jsonwebtoken pour le chiffrage d'un token
                   token: jwt.sign(
                     {userId: user._id },
-                    'RAMDOM_TOKEN_SECRET',
+                    'RANDOM_TOKEN_SECRET',
                     {expiresIn: '24h'}
                   )
               });
