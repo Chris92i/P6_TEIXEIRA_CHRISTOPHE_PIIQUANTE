@@ -1,6 +1,8 @@
 const express = require("express");
 
+//creer une application express
 const app = express();
+
 // permet a express de parser les json
 app.use(express.json());
 

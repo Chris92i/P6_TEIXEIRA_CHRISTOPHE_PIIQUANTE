@@ -1,7 +1,7 @@
-//import du paquet http
+//import du paquet http natif de node
 const http = require("http");
 
-//
+//import de l'application express
 const app = require("./app");
 
 app.set("port", process.env.PORT || 3000);
@@ -19,6 +19,7 @@ const normalizePort = (val) => {
   return false;
 };
 const port = normalizePort(process.env.PORT || "3000");
+//on set le port sur lequel on fait tourner notre application
 app.set("port", port);
 
 // errorHandler => recherche les différentes erreurs et les gère de manière appropriée. Elle est ensuite enregistrée dans le serveur
@@ -43,7 +44,8 @@ const errorHandler = (error) => {
   }
 };
 
-// creation et renvoi resultat app
+// creation du serveur et on passe notre app car c'est une fonction qui va recevoir la requete et la réponse
 const server = http.createServer(app);
 
+//configuration du serveur pour qu'il écoute 
 server.listen(process.env.PORT || 3000);
