@@ -1,9 +1,13 @@
 // import du model Sauce
+const { json } = require("express");
 const Sauce = require("../models/sauce");
 
 exports.createSauce = (req, res) => {
+  const sauceObject = JSON.parse(req.body.sauce)
   const sauce = new Sauce({
-    ...req.body,
+    ...sauceObject,
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+    userId: req.auth.userId
   });
   sauce
     .save()
@@ -49,6 +53,36 @@ exports.getOneSauce = (req, res) => {
 };
 
 exports.updateSauce = (req, res) => {
+  const sauceObject = req.file?{
+    ...JSON.parse(req.body.sauce),
+    imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`}
+    :{
+      ...req.body
+    }
+    Sauce.findOne({_id: req.params.id})
+    .then((sauce) => {
+      // if(sauce.userId != req.auth.userId){
+      //   res.status(401).json({message: "non autorisé"})
+      // }
+      //else{
+        Sauce.updateOne({ _id: req.params.id }, {...sauceObject,_id:req.params.id})
+        .then(() => {
+        res.status(201).json({
+        message: "Sauce updated successfully!"})
+        .catch(error => res.status(500).json({error})) 
+      });
+      //}
+    })
+    .catch((error) => {
+      res.status(404).json({
+        error: error,
+      });
+    });
+
+
+
+
+
   const sauce = new Sauce({
     _id: req.params.id,
     title: req.body.title,

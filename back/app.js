@@ -3,6 +3,8 @@ const express = require("express");
 //creer une application express
 const app = express();
 
+const path = require("path");
+
 // permet a express de parser les json
 app.use(express.json());
 
@@ -11,6 +13,8 @@ const mongoose = require("mongoose");
 const userRoute = require("./routes/user");
 
 const sauceRoute = require("./routes/sauce");
+
+
 
 mongoose
   .connect(
@@ -34,6 +38,9 @@ app.use((req, res, next) => {
   //res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
+
+app.use("/images",express.static(path.join(__dirname,"images")))
+
 
 // 2 grosses routes
 app.use("/api/auth", userRoute);
