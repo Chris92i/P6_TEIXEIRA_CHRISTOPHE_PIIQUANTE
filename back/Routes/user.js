@@ -5,7 +5,7 @@ const express = require("express");
 const router = express.Router();
 
 const userctrl = require("../controllers/user");
-const validpassword = require("../middleware/valid");
+const validpassword = require("../middleware/validpassword");
 const validEmail = require("../middleware/validEmail");
 
 router.post("/signup", validpassword, validEmail, userctrl.signup);

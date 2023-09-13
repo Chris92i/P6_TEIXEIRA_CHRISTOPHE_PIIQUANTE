@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 // import du package jsonwebtoken pour les token pour la création des token
 const jwt = require("jsonwebtoken");
 
-const valid = require("../middleware/valid");
+const valid = require("../middleware/validpassword");
 
 exports.signup = (req, res) => {
   //utilisation du plugin bcrypt et sa method hash on veut faire un hash 10 fois

@@ -113,6 +113,8 @@ exports.deleteSauce = (req,res) => {
 
 
 exports.likeSauce = (req, res) => {
+  res.status(200).json({ message: "ok" });
+};
 //récupérer le parametre de la sauce qu'on cherche dans la requete (req.params.id) findOne
 // est qu'on a un résultat 
 // si on a un résultat => on fait un swith => pour tester le like 1,0, -1
@@ -128,5 +130,4 @@ exports.likeSauce = (req, res) => {
 
 
 
-  res.status(200).json({ message: "ok" });
-};
+
