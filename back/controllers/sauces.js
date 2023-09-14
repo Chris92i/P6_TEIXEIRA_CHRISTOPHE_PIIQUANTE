@@ -96,7 +96,7 @@ exports.deleteSauce = (req,res) => {
         res.status(401).json({message: 'Not authorized'});
       }else{
         const filename = sauce.imageUrl.split('/images')[1];
-        fs.unlink('images/${filename}', () => {
+        fs.unlink(`images/${filename}`, () => {
           Sauce.deleteOne({_id: req.params.id})
             .then(()=> {
               res.status(200).json({message: 'Objet supprimé !'})
@@ -111,10 +111,12 @@ exports.deleteSauce = (req,res) => {
     });
 }
 
-
+/* old version provisoire
 exports.likeSauce = (req, res) => {
   res.status(200).json({ message: "ok" });
 };
+*/
+
 //récupérer le parametre de la sauce qu'on cherche dans la requete (req.params.id) findOne
 // est qu'on a un résultat 
 // si on a un résultat => on fait un swith => pour tester le like 1,0, -1
@@ -128,6 +130,30 @@ exports.likeSauce = (req, res) => {
 
 // => puis faire un updateOne
 
+exports.likeSauce = (req, res) => {
+const sauceId = req.params.id;
+const like = req.body.like;
 
-
-
+Sauce.findOne ({_id, sauceId})
+  .then(sauce =>{
+    if (like == 1){
+      if(sauce.userLiked.includes(req.auth.userId)){
+        req.status(401).json({message: 'Vous avez déjà noté la sauce'})
+      }else{
+        Sauce.updateOne(
+          {_id : sauceId},
+          {
+            $inc:{likes:+1},
+            $push:{userLiked:req.auth.userId}
+          }
+        ).then (()=> res.status(200).json({message: 'Vous avez liké'})
+        ) 
+      }
+    }
+  }
+  )
+  .catch((error) => {
+    res.status(500).json({ error});
+  }
+  ) 
+}
