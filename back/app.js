@@ -1,7 +1,13 @@
 const express = require("express");
 
+const helmet = require('helmet');
+
 //creer une application express
 const app = express();
+
+app.use(helmet());
+
+
 
 //import du module path
 const path = require("path");
@@ -50,6 +56,8 @@ app.use("/images",express.static(path.join(__dirname,"images")))
 
 // Installer la bibliothèque
 //app.use(expressValidator());
+
+
 
 
 // 2 grosses routes, nos routeurs users et sauces

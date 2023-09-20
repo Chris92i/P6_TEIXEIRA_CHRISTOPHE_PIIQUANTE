@@ -120,17 +120,7 @@ exports.likeSauce = (req, res) => {
 };
 */
 
-//récupérer le parametre de la sauce qu'on cherche dans la requete (req.params.id) findOne
-// est qu'on a un résultat
-// si on a un résultat => on fait un swith => pour tester le like 1,0, -1
-// si c'est un CASE 1 = 1 vérifier s'il n'a pas déjà liker => vérifier dans le tableau userliked vérifier si (req.auth.userId) n'est pas dedans => si dedans (message déjà voté)
-// si pas dedans => on créer un petit objet {userLiked: req.auth.userId} faire un autre petit objet {likes: 1} => push $inc :{like : 1} $push : {userLiked: req.auth.userId}
 
-//Case = -1 idem pour le -1 ce n'est pas $push mais $pull pour retirer $inc: {disLiked: -1}
-
-//Case 3 = 0 regarder si déjà dans le tableau des likes (si oui le retirer) et sinon aller voir dans le tableau des dislikes et le retirer du tableau
-
-// => puis faire un updateOne
 
 exports.likeSauce = (req, res) => {
   const sauceId = req.params.id;
@@ -141,7 +131,7 @@ exports.likeSauce = (req, res) => {
     .then((sauce) => {
       if (like == 1) {
         if (sauce.userLiked.includes(userId)) {
-          req.status(401).json({ message: "Vous avez déjà noté la sauce" });
+          res.status(401).json({ message: "Vous avez déjà noté la sauce" });
         } else {
           Sauce.updateOne(
             { _id: sauceId },
@@ -153,7 +143,7 @@ exports.likeSauce = (req, res) => {
         }
       } else if (like == -1) {
         if (sauce.usersDisliked.includes(userId)) {
-          req.status(401).json({ message: "Vous avez déjà noté la sauce" });
+          res.status(401).json({ message: "Vous avez déjà noté la sauce" });
         } else {
           Sauce.updateOne(
             { _id: sauceId },
@@ -183,9 +173,7 @@ exports.likeSauce = (req, res) => {
         }
       }
     })
-    .catch((error) => {
-      res.status(500).json({ error });
-    });
+    .catch((error) => res.status(400).json({ error }));
 };
 
 /*
