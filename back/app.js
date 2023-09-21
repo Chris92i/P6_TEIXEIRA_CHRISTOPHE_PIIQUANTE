@@ -1,29 +1,18 @@
 const express = require("express");
-
 const helmet = require('helmet');
-
 //creer une application express
 const app = express();
-
-app.use(helmet());
-
-
-
 //import du module path
 const path = require("path");
-
 // permet a express de parser les json
 app.use(express.json());
-
 // Import express-validator
-const { body, validationResult } = require('express-validator');
-
+const expressValidator = require('express-validator');
 const mongoose = require("mongoose");
-
 //on enregistre nos routeurs user et sauce
 const userRoute = require("./routes/user");
-
 const sauceRoute = require("./routes/sauce");
+const rateLimit = require('express-rate-limit');
 
 
 
@@ -58,6 +47,17 @@ app.use("/images",express.static(path.join(__dirname,"images")))
 //app.use(expressValidator());
 
 
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limite chaque IP à 100 requetes toutes les 15 min
+  message: 'Trop de tentative, votre compte est bloqué pendant 15min'
+});
+
+// application de rateLimite à toutes les requetes
+app.use(limiter);
+
+app.use(helmet());
 
 
 // 2 grosses routes, nos routeurs users et sauces
