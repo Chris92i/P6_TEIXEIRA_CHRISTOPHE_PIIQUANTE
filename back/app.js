@@ -1,19 +1,21 @@
 const express = require("express");
-const helmet = require('helmet');
-//creer une application express
-const app = express();
-//import du module path
-const path = require("path");
-// permet a express de parser les json
-app.use(express.json());
-// Import express-validator
-const expressValidator = require('express-validator');
+const helmet = require('helmet'); //import helmet
+const app = express();//creer une application express
+const path = require("path"); //import du module path
+
+app.use(express.json()); // permet a express de parser les json
+
+
+const expressValidator = require('express-validator'); // Import express-validator
 const mongoose = require("mongoose");
+
 //on enregistre nos routeurs user et sauce
 const userRoute = require("./routes/user");
 const sauceRoute = require("./routes/sauce");
+
 const rateLimit = require('express-rate-limit');
 require('dotenv').config()
+const mongoSanitize = require('express-mongo-sanitize');
 
 
 mongoose
@@ -43,9 +45,8 @@ app.use((req, res, next) => {
 // cela indique à Express qu'il faut gerer la ressource image de manière statique
 app.use("/images",express.static(path.join(__dirname,"images")))
 
-// Installer la bibliothèque
-//app.use(expressValidator());
 
+app.use(mongoSanitize()); // Contre les injections
 
 
 const limiter = rateLimit({
