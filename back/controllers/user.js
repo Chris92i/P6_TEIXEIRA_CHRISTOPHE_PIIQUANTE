@@ -9,6 +9,8 @@ const jwt = require("jsonwebtoken");
 
 const valid = require("../middleware/validpassword");
 
+require('dotenv').config();
+
 exports.signup = (req, res) => {
   //utilisation du plugin bcrypt et sa method hash on veut faire un hash 10 fois
   bcrypt
@@ -46,7 +48,7 @@ exports.login = (req, res) => {
           res.status(200).json({
             userId: user._id,
             //utilisation de la fonction sign de jsonwebtoken pour le chiffrage d'un token
-            token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+            token: jwt.sign({ userId: user._id }, process.env.TOKEN, {
               expiresIn: "24h",
             }),
           });

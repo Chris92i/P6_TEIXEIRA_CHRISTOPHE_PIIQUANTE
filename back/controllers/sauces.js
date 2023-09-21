@@ -1,9 +1,6 @@
-// import du model Sauce
-const { json } = require("express");
 const Sauce = require("../models/sauce");
 const fs = require("fs");
-const { error } = require("console");
-const sauce = require("../models/sauce");
+
 
 exports.createSauce = (req, res) => {
   const sauceObject = JSON.parse(req.body.sauce);

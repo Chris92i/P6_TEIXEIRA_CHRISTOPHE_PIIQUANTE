@@ -13,12 +13,12 @@ const mongoose = require("mongoose");
 const userRoute = require("./routes/user");
 const sauceRoute = require("./routes/sauce");
 const rateLimit = require('express-rate-limit');
-
+require('dotenv').config()
 
 
 mongoose
   .connect(
-    "mongodb+srv://Bob2009:Openclassrooms01@cluster0.6hbeb7w.mongodb.net/?retryWrites=true&w=majority",
+    process.env.DB,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
