@@ -5,8 +5,6 @@ const path = require("path"); //import du module path
 
 app.use(express.json()); // permet a express de parser les json
 
-
-const expressValidator = require('express-validator'); // Import express-validator
 const mongoose = require("mongoose");
 
 //on enregistre nos routeurs user et sauce
@@ -58,6 +56,7 @@ const limiter = rateLimit({
 // application de rateLimite à toutes les requetes
 app.use(limiter);
 
+// utilisation du middleware d'helmet qui définit plusieurs en-têtes http pour sécuriser l'application
 app.use(helmet());
 
 
