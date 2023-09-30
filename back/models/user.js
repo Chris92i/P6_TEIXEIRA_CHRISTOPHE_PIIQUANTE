@@ -14,5 +14,5 @@ const userSchema = mongoose.Schema({
 // utilisation du plugin pour vérification adresse email unique
 userSchema.plugin(uniquev);
 
-// nous exportons ce schéma en tant que modèle Mongoose appelé « sauce », le rendant par là même disponible pour notre application Express.
+// nous exportons ce schéma en tant que modèle Mongoose appelé « user », le rendant par là même disponible pour notre application Express.
 module.exports = mongoose.model("User", userSchema);

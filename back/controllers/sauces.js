@@ -1,8 +1,12 @@
+//import du modele sauce
 const Sauce = require("../models/sauce");
+
+//import du module fs (file system) de node pour pouvoir gerer les fichiers
 const fs = require("fs");
 
 
 exports.createSauce = (req, res) => {
+  //on extrait la sauce du corps de la requete
   const sauceObject = JSON.parse(req.body.sauce);
   const sauce = new Sauce({
     ...sauceObject,
@@ -26,6 +30,7 @@ exports.createSauce = (req, res) => {
 };
 
 exports.getAllSauces = (req, res) => {
+  //utilisation de la méthode find() de mangoose sans argument pour récupérer toute la collection
   Sauce.find()
     .then((sauce) => {
       res.status(200).json(sauce);
@@ -70,9 +75,6 @@ exports.updateSauce = (req, res) => {
       if (sauce.userId != req.auth.userId) {
         res.status(401).json({ message: "non autorisé" });
       } else {
-        //si on utilise le mot clé NEW avec un modèle Mangoose crée par défaut un champ _id
-        //cela créerait une erreur car modification de champ immuable. =>  donc on utilise le parametre _id de la requete
-        //pour configurer la sauce avec le meme _id qu'avant.
         Sauce.updateOne(
           { _id: req.params.id },
           { ...sauceObject, _id: req.params.id }
@@ -111,12 +113,6 @@ exports.deleteSauce = (req, res) => {
     });
 };
 
-/* old version provisoire
-exports.likeSauce = (req, res) => {
-  res.status(200).json({ message: "ok" });
-};
-*/
-
 
 
 exports.likeSauce = (req, res) => {
@@ -141,7 +137,7 @@ exports.likeSauce = (req, res) => {
         }
       } else if (like == -1) {
         if (sauce.usersDisliked.includes(userId)) {
-          return res.status(401).json({ message: "Vous avez déjà noté la sauce" });
+          res.status(401).json({ message: "Vous avez déjà noté la sauce" });
         } else {
           Sauce.updateOne(
             { _id: sauceId },
@@ -180,43 +176,3 @@ exports.likeSauce = (req, res) => {
     })
     .catch((error) => res.status(400).json({ error }));
 };
-
-/*
-  Sauce.findOne({ _id: sauceId })
-    .then((sauce) => {
-      switch (like) {
-        case 1:
-          if (sauce.usersLiked.includes(req.auth.userId)) {
-            req.status(401).json({ message: "Vous avez déjà noté la sauce" });
-          } else {
-            Sauce.updateOne(
-              { _id: sauceId },
-              {
-                $inc: { likes: +1 },
-                $push: { usersLiked: req.auth.userId },
-              }
-            ).then(() => res.status(200).json({ message: "Vous avez liké" }));
-          }
-          break;
-        case -1:
-          if (sauce.usersDisliked.includes(req.auth.userId)) {
-            req.status(401).json({ message: "Vous avez déjà noté la sauce" });
-          } else {
-            Sauce.updateOne(
-              { _id: sauceId },
-              {
-                $inc: { dislikes: -1 },
-                $push: { usersDisliked: req.auth.userId },
-              }
-            ).then(() => res.status(200).json({ message: "Vous avez disliké" }));
-          }
-          break;
-        //case 0:
-            
-      }
-    })
-    .catch((error) => {
-      res.status(500).json({ error });
-    });
-};
-*/

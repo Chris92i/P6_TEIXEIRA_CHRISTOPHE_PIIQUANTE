@@ -7,7 +7,6 @@ const bcrypt = require("bcrypt");
 // import du package jsonwebtoken pour les token pour la création des token
 const jwt = require("jsonwebtoken");
 
-const valid = require("../middleware/validpassword");
 
 require('dotenv').config();
 

@@ -44,7 +44,7 @@ app.use((req, res, next) => {
 app.use("/images",express.static(path.join(__dirname,"images")))
 
 
-app.use(mongoSanitize()); // Contre les injections
+app.use(mongoSanitize()); // Contre les injections noSQL tous les caractères interdits dans mangoDB
 
 
 const limiter = rateLimit({
@@ -57,7 +57,10 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // utilisation du middleware d'helmet qui définit plusieurs en-têtes http pour sécuriser l'application
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  }));
 
 
 // 2 grosses routes, nos routeurs users et sauces
