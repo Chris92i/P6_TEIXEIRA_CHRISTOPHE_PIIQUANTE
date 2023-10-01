@@ -42,7 +42,10 @@ exports.getAllSauces = (req, res) => {
     });
 };
 
+
+//affichage d'une sauce 
 exports.getOneSauce = (req, res) => {
+  // utilisation de la méthode findOne() de mangoose pour trouver une sauce en utilisant en parametre l'id de la sauce du corps de la requete 
   Sauce.findOne({
     _id: req.params.id,
   })
@@ -59,7 +62,10 @@ exports.getOneSauce = (req, res) => {
     });
 };
 
-exports.updateSauce = (req, res) => {
+//modification d'une sauce
+//gestion de la modification, regarde si la modification contient un fichier ou pas 
+//puis si l'user est le propriétaire de la sauce
+exports.updateSauce = (req, res) =>  {
   const sauceObject = req.file
     ? {
         ...JSON.parse(req.body.sauce),
@@ -92,6 +98,8 @@ exports.updateSauce = (req, res) => {
     });
 };
 
+
+// suppression d'une sauce
 exports.deleteSauce = (req, res) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
@@ -114,7 +122,7 @@ exports.deleteSauce = (req, res) => {
 };
 
 
-
+// gestion like et dislike
 exports.likeSauce = (req, res) => {
   const sauceId = req.params.id;
   const userId = req.auth.userId;
