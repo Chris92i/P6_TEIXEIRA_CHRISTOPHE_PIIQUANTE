@@ -1,6 +1,7 @@
+//import du module jsonwebtoken pour travail avec les token
 const jwt = require("jsonwebtoken");
 
-//importe le module dotenv et appell sa fonction config() => charge les variables d'environnement du fichier .env dans process.env
+//importe le module dotenv et appelle sa fonction config() => charge les variables d'environnement du fichier .env dans process.env
 require('dotenv').config(); 
 
 module.exports = (req, res, next) => {
